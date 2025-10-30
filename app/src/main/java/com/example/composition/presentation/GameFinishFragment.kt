@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
+import androidx.navigation.fragment.findNavController
 import com.example.composition.R
 import com.example.composition.databinding.FragmentGameFinishBinding
 import com.example.composition.domain.entities.GameResult
@@ -37,11 +38,6 @@ class GameFinishFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                retryGame()
-            }
-        })
         binding.buttonRetry.setOnClickListener { retryGame() }
         with(binding){
             emojiResult.setImageResource(setUpImage())
@@ -91,8 +87,7 @@ class GameFinishFragment : Fragment() {
     }
 
     private fun retryGame(){
-        requireActivity().supportFragmentManager.popBackStack(GameFragment.FRAGMENT_NAME,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        findNavController().popBackStack()
     }
 
     companion object{

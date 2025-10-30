@@ -10,10 +10,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.composition.R
 import com.example.composition.databinding.FragmentGameBinding
 import com.example.composition.domain.entities.GameResult
 import com.example.composition.domain.entities.Level
+import com.example.composition.presentation.GameFinishFragment.Companion.GAME_RESULT_PARAM
 
 class GameFragment : Fragment() {
 
@@ -104,10 +106,10 @@ class GameFragment : Fragment() {
     }
 
     private fun launchGameFinishedFragment(gameResult: GameResult){
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, GameFinishFragment.newInstance(gameResult))
-            .addToBackStack(GameFinishFragment.FRAGMENT_NAME)
-            .commit()
+        val args = Bundle().apply {
+            putParcelable(GAME_RESULT_PARAM, gameResult)
+        }
+        findNavController().navigate(R.id.action_gameFragment_to_gameFinishFragment, args)
     }
 
     override fun onDestroyView() {

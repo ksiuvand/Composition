@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.composition.R
 import com.example.composition.databinding.FragmentChooseLevelBinding
 import com.example.composition.domain.entities.Level
+import com.example.composition.presentation.GameFragment.Companion.LEVEL_PARAM
 
 class ChooseLevelFragment : Fragment() {
 
@@ -33,10 +35,10 @@ class ChooseLevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(level: Level){
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, GameFragment.newInstance(level))
-            .addToBackStack(GameFragment.FRAGMENT_NAME)
-            .commit()
+        val args = Bundle().apply {
+            putParcelable(LEVEL_PARAM, level)
+        }
+        findNavController().navigate(R.id.action_chooseLevelFragment_to_gameFragment, args)
     }
 
     override fun onDestroyView() {

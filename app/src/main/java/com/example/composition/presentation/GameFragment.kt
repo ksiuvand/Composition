@@ -17,8 +17,12 @@ import com.example.composition.domain.entities.Level
 
 class GameFragment : Fragment() {
 
+    private val gameViewModelFactory by lazy {
+        GameViewModelFactory(level, requireActivity().application)
+    }
+
     private val viewModel by lazy {
-        ViewModelProvider(this)[GameViewModel::class.java]
+        ViewModelProvider(this, gameViewModelFactory)[GameViewModel::class.java]
     }
 
     private lateinit var level: Level
@@ -44,7 +48,6 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        viewModel.startGame(level)
     }
 
     private fun observeViewModel(){

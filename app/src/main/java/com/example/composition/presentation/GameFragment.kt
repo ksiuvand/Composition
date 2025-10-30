@@ -8,35 +8,27 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.composition.R
+import androidx.navigation.fragment.navArgs
 import com.example.composition.databinding.FragmentGameBinding
 import com.example.composition.domain.entities.GameResult
-import com.example.composition.domain.entities.Level
-import com.example.composition.presentation.GameFinishFragment.Companion.GAME_RESULT_PARAM
 
 class GameFragment : Fragment() {
 
+    private val args by navArgs<GameFragmentArgs>()
+
     private val gameViewModelFactory by lazy {
-        GameViewModelFactory(level, requireActivity().application)
+        GameViewModelFactory(args.level, requireActivity().application)
     }
 
     private val viewModel by lazy {
         ViewModelProvider(this, gameViewModelFactory)[GameViewModel::class.java]
     }
 
-    private lateinit var level: Level
-
     private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArguments()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -106,40 +98,11 @@ class GameFragment : Fragment() {
     }
 
     private fun launchGameFinishedFragment(gameResult: GameResult){
-        val args = Bundle().apply {
-            putParcelable(GAME_RESULT_PARAM, gameResult)
-        }
-        findNavController().navigate(R.id.action_gameFragment_to_gameFinishFragment, args)
+        findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameFinishFragment(gameResult))
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun parseArguments(){
-        level = when {
-            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU -> {
-                arguments?.getParcelable<Level>(LEVEL_PARAM, Level::class.java)
-            }
-            else -> {
-                @Suppress("DEPRECATION")
-                arguments?.getParcelable<Level>(LEVEL_PARAM)
-            }
-        }!!
-    }
-
-    companion object{
-
-        const val LEVEL_PARAM = "level"
-        const val FRAGMENT_NAME = "GameFragment"
-
-        fun newInstance(level: Level): GameFragment{
-            return GameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(LEVEL_PARAM, level)
-                }
-            }
-        }
     }
 }

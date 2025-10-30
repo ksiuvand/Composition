@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.composition.R
 import com.example.composition.databinding.FragmentChooseLevelBinding
 import com.example.composition.domain.entities.Level
-import com.example.composition.presentation.GameFragment.Companion.LEVEL_PARAM
 
 class ChooseLevelFragment : Fragment() {
 
@@ -35,22 +34,11 @@ class ChooseLevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(level: Level){
-        val args = Bundle().apply {
-            putParcelable(LEVEL_PARAM, level)
-        }
-        findNavController().navigate(R.id.action_chooseLevelFragment_to_gameFragment, args)
+        findNavController().navigate(ChooseLevelFragmentDirections.actionChooseLevelFragmentToGameFragment(level))
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object{
-        const val FRAGMENT_NAME = "ChooseLevelFragment"
-
-        fun newInstance(): ChooseLevelFragment{
-            return ChooseLevelFragment()
-        }
     }
 }

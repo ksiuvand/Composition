@@ -29,34 +29,8 @@ class GameFinishFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.gameResult = args.gameResult
         binding.buttonRetry.setOnClickListener { retryGame() }
-        with(binding){
-            emojiResult.setImageResource(setUpImage())
-            tvScoreAnswers.text = String.format(getString(R.string.score_answers), args.gameResult.countOfRightAnswers)
-            tvRequiredAnswers.text = String.format(getString(R.string.required_score), args.gameResult.gameSettings.minCountOfRightAnswers)
-            tvRequiredPercentage.text = String.format(getString(R.string.required_percentage), args.gameResult.gameSettings.minPercentOfRightAnswers)
-            tvScorePercentage.text = String.format(getString(R.string.score_percentage), getPercentOfRightAnswers())
-
-
-        }
-    }
-
-    private fun getPercentOfRightAnswers(): Int{
-        with(args.gameResult){
-            if (countOfQuestions == 0){
-                return 0
-            }else{
-                return ((countOfRightAnswers / countOfQuestions.toDouble()) * 100).toInt()
-            }
-        }
-    }
-
-    private fun setUpImage(): Int{
-        return if(args.gameResult.winner){
-            R.drawable.ic_smile
-        }else{
-            R.drawable.ic_sad
-        }
     }
 
     override fun onDestroyView() {

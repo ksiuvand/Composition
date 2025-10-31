@@ -41,60 +41,15 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         observeViewModel()
     }
 
     private fun observeViewModel(){
-        viewModel.currentTime.observe(viewLifecycleOwner){
-            binding.tvTimer.text = it
-        }
-        viewModel.question.observe(viewLifecycleOwner){
-            binding.tvSum.text = it.sum.toString()
-            binding.tvLeftNumber.text = it.visibleNumber.toString()
-            val tvOptions = mutableListOf<TextView>().apply {
-                add(binding.tvOption1)
-                add(binding.tvOption2)
-                add(binding.tvOption3)
-                add(binding.tvOption4)
-                add(binding.tvOption5)
-                add(binding.tvOption6)
-            }
-            for (i in 0..tvOptions.size-1){
-                val tvOption = tvOptions[i]
-                tvOption.text = it.options[i].toString()
-                tvOption.setOnClickListener {
-                    viewModel.chooseAnswer(tvOption.text.toString().toInt())
-                }
-            }
-        }
-        viewModel.progressAnswers.observe(viewLifecycleOwner){
-            binding.tvAnswersProgress.text = it
-        }
-        viewModel.percentOfRightAnswers.observe(viewLifecycleOwner){
-            binding.progressBar.setProgress(it, true)
-        }
-        viewModel.enoughCountOfRightAnswers.observe(viewLifecycleOwner){
-            binding.tvAnswersProgress.setTextColor(setColor(it))
-        }
-        viewModel.enoughPercentOfRightAnswers.observe(viewLifecycleOwner){
-            binding.progressBar.progressTintList = ColorStateList.valueOf(setColor(it))
-        }
-        viewModel.minPercent.observe(viewLifecycleOwner){
-            binding.progressBar.secondaryProgress = it
-        }
         viewModel.gameResult.observe(viewLifecycleOwner){
             launchGameFinishedFragment(it)
         }
-    }
-
-    private fun setColor(isEnough: Boolean): Int{
-        val colorResId = if (isEnough){
-            android.R.color.holo_green_light
-        }else{
-            android.R.color.holo_red_light
-        }
-        val color = ContextCompat.getColor(requireContext(), colorResId)
-        return color
     }
 
     private fun launchGameFinishedFragment(gameResult: GameResult){

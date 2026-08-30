@@ -6,11 +6,16 @@
 
 ## Скриншоты
 
-![Приветственный экран](./screenshots/welcome.png)
-![Лёгкий уровень](./screenshots/game_light.jpg)
-![Сложный уровень](./screenshots/game_hard.jpg)
-![Успешный результат](./screenshots/result_good.jpg)
-![Неудачный результат](./screenshots/result_sad.jpg)
+<p align="center">
+  <img src="./screenshots/welcome.png" width="200" alt="Приветственный экран">
+  <img src="./screenshots/game_light.jpg" width="200" alt="Лёгкий уровень">
+  <img src="./screenshots/game_hard.jpg" width="200" alt="Сложный уровень">
+</p>
+
+<p align="center">
+  <img src="./screenshots/result_good.jpg" width="200" alt="Успешный результат">
+  <img src="./screenshots/result_sad.jpg" width="200" alt="Неудачный результат">
+</p>
 
 ## Возможности
 
